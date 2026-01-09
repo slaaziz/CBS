@@ -1,6 +1,6 @@
-# CBS Taxonomy Matcher
+# CBS Dashboard
 
-Project files for the Dutch taxonomy matching model.
+Project files for the matching model.
 
 ## File Overview
 
