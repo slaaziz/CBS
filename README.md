@@ -27,3 +27,50 @@ Project files for the matching model.
     * **`dataset_modified_cleaned.csv`**: Drops these missing entries (zeros) and low-quality matches (<0.4).
     * **`dataset_og_cleaned.csv`**: Drops the corresponding rows from the original dataset so we can compare apples to apples.
     * **Merge:** Both cleaned files are merged into `final_balanced_training_set.csv`. This final file keeps only the moderate/high similarity entries as Positives and adds Negatives, which are randomly selected but then fully scored using Spacy. This creates a dataset where every entry, match or not, has valid Dutch scores and English metadata.
+
+Model A – Initial baseline
+	•	TF-IDF similarity + Random Forest
+	•	English-oriented preprocessing
+	•	Problems: Dutch text handled poorly, ID mismatches, missing files caused fake 0-scores
+
+Model B – Fixed Dutch baseline (current reference)
+	•	Dutch NLP using spaCy (nl_core_news_sm)
+	•	Lemmatization enabled
+	•	Rows removed if raw text files were missing (“ghost rows”)
+	•	Clean similarity features
+	•	Random Forest trained on valid Dutch text
+
+Model B is the official baseline for comparison.
+
+Next step (ongoing): Model C
+The Random Forest baseline will be replaced by a modern retrieval pipeline:
+	•	ColBERT (neural search)
+	•	Hybrid search (BM25 + ColBERT)
+	•	Cross-encoder reranking
+
+⸻
+
+Important files
+	•	cleaned_initial.csv – Output of Model A (kept for comparison)
+	•	cleaned_fixed.csv – Cleaned and validated dataset (use this)
+	•	fixed_preprocess.ipynb – Core preprocessing and data fixes
+	•	cleaned_model_fixed.ipynb – Trains Model B
+	•	rf_training_eval_step.ipynb – Training & evaluation logic
+
+⸻
+
+Data note:
+Raw data files are not in this repo due to size.
+All experiments must use the same IDs as in cleaned_fixed.csv.
+
+⸻
+
+Setup:
+pip install -r requirements.txt
+python -m spacy download nl_core_news_sm
+
+⸻
+
+Notes
+	•	Do not commit raw data or model files
+	•	Treat cleaned_fixed.csv as the source of truth
