@@ -28,49 +28,60 @@ Project files for the matching model.
     * **`dataset_og_cleaned.csv`**: Drops the corresponding rows from the original dataset so we can compare apples to apples.
     * **Merge:** Both cleaned files are merged into `final_balanced_training_set.csv`. This final file keeps only the moderate/high similarity entries as Positives and adds Negatives, which are randomly selected but then fully scored using Spacy. This creates a dataset where every entry, match or not, has valid Dutch scores and English metadata.
 
-Model A – Initial baseline
-	•	TF-IDF similarity + Random Forest
-	•	English-oriented preprocessing
-	•	Problems: Dutch text handled poorly, ID mismatches, missing files caused fake 0-scores
+## ABC Models
 
-Model B – Fixed Dutch baseline (current reference)
-	•	Dutch NLP using spaCy (nl_core_news_sm)
-	•	Lemmatization enabled
-	•	Rows removed if raw text files were missing (“ghost rows”)
-	•	Clean similarity features
-	•	Random Forest trained on valid Dutch text
+### Model A – Initial baseline
+- TF-IDF similarity + Random Forest
+- English-oriented preprocessing
+- Known issues:
+  - Poor handling of Dutch text
+  - ID mismatches
+  - Missing raw files caused artificial 0-scores
 
-Model B is the official baseline for comparison.
+---
 
-Next step (ongoing): Model C
-The Random Forest baseline will be replaced by a modern retrieval pipeline:
-	•	ColBERT (neural search)
-	•	Hybrid search (BM25 + ColBERT)
-	•	Cross-encoder reranking
+### Model B – Fixed Dutch baseline (current reference)
+- Dutch NLP using spaCy (`nl_core_news_sm`)
+- Lemmatization enabled
+- Rows removed if raw text files were missing (“ghost rows”)
+- Clean semantic similarity features
+- Random Forest trained on valid Dutch text
 
-⸻
+**Model B is the official baseline for comparison.**
 
-Important files
-	•	cleaned_initial.csv – Output of Model A (kept for comparison)
-	•	cleaned_fixed.csv – Cleaned and validated dataset (use this)
-	•	fixed_preprocess.ipynb – Core preprocessing and data fixes
-	•	cleaned_model_fixed.ipynb – Trains Model B
-	•	rf_training_eval_step.ipynb – Training & evaluation logic
+---
 
-⸻
+### Model C – Retrieval + neural verification (implemented)
+Model C replaces the Random Forest classifier with a retrieval-based pipeline
 
-Data note:
-Raw data files are not in this repo due to size.
-All experiments must use the same IDs as in cleaned_fixed.csv.
+**Implemented components**
+- **BM25 retrieval**
+  - Generates a shortlist of candidate news articles per CBS dataset
+- **Neural cross-encoder reranking**
+  - Jointly reads the CBS dataset text and each candidate article
+  - Produces a relevance score per (dataset, article) pair
+- **Decision threshold**
+  - Converts the relevance score into a binary prediction:
+    - *uses CBS data* (YES / NO)
 
-⸻
+**Output**
+- Predictions are stored as CSV files (e.g. `model_c_predictions_0.5.csv`)
+- Filenames explicitly include the threshold value
+- This:
+  - avoids recomputation
+  - supports comparison across thresholds
+  - allows results to be shared without rerunning the model
 
-Setup:
-pip install -r requirements.txt
-python -m spacy download nl_core_news_sm
+**Planned extensions (future work)**
+- **ColBERT neural retrieval**
+  - Improves recall for paraphrased or weakly lexical matches
+- **Hybrid retrieval (BM25 + ColBERT)**
+  - Uses Reciprocal Rank Fusion (RRF)
+- **Threshold calibration**
+  - Optimizes precision–recall trade-offs using validation data
 
-⸻
 
-Notes
-	•	Do not commit raw data or model files
-	•	Treat cleaned_fixed.csv as the source of truth
+
+
+
+
