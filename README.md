@@ -78,25 +78,26 @@ Model C replaces the Random Forest classifier with a retrieval-based pipeline
 **Implemented components**
 - **BM25 retrieval**
   - Generates a shortlist of candidate news articles per CBS dataset
+  - Limits the search space so only the most relevant articles are considered
 - **Neural cross-encoder reranking**
   - Jointly reads the CBS dataset text and each candidate article
   - Produces a relevance score per (dataset, article) pair
-- **Decision threshold**
-  - Converts the relevance score into a binary prediction:
-    - *uses CBS data* (YES / NO)
+  - Uses chunking to ensure long articles are fully evaluated
+- **Ranking based decision logic**
+  - Orders candidate articles by relevance score
+  - Only the top-ranked articles are considered for decision-making
+  - A margin is computed as the score difference (internal model score) between the top two ranked articles
+  - A large margin indicates a clear top match, while a small margin indicates uncertainty and triggers manual review
+  - This approach prioritizes cases where the model is most confident
 
 **Output**
-- Predictions are stored as CSV files (e.g. `model_c_predictions_0.5.csv`)
-- Filenames explicitly include the threshold value
-- This:
-  - avoids recomputation
-  - supports comparison across thresholds
-  - allows results to be shared without rerunning the model
+- Predictions are stored as CSV file per CBS article 
+- Filenames explicitly include the margin value
+- File contains:
+  - parent_id, child_id, rank, relevance score
+  - decision label (AUTO_POSITIVE / REVIEW / IGNORE)
 
 **Planned extensions (future work)**
 - **ColBERT neural retrieval**
   - Improves recall for paraphrased or weakly lexical matches
-- **Hybrid retrieval (BM25 + ColBERT)**
-  - Uses Reciprocal Rank Fusion (RRF)
-- **Threshold calibration**
-  - Optimizes precision-recall trade-offs using validation data
+
