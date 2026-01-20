@@ -6,9 +6,9 @@ Project files for the matching model.
 
 | File | Description |
 | :--- | :--- |
-| **`trainset_reconstructed.csv`** | **Start Here.** The new master training file. Contains reconstructed matches + hard negatives (1:1 ratio). Includes Dutch similarity scores (`content_sim_dutch`) and the original legacy confidence scores (`%`). |
-| **`rf_models_reconstructed.ipynb`** | Training notebook. Runs an A/B test between the Legacy Jaccard model and the New Dutch Vector model. **Result:** Both models achieve ~99% accuracy on the high-confidence subset. |
-| **`new_preprocess.ipynb`** | Data generation script. Stitches the raw CSV files, calculates SpaCy vectors, applies the 2-day date window, and generates the `trainset_reconstructed.csv`. |
+| **`trainset_reconstructed.csv`** | **START HERE!** - The new master training file. Contains reconstructed matches + hard negatives (1:1 ratio). Includes Dutch similarity scores (`content_sim_dutch`) and the original legacy confidence scores (`%`). |
+| **`rf_models_reconstructed.ipynb`** | **DONE!** - Training notebook. Runs an A/B test between the Legacy Jaccard model and the New Dutch Vector model. **Result:** Both models achieve ~99% accuracy on the high-confidence subset. Also includes **Error Analysis**.|
+| **`new_preprocess.ipynb`** | **DONE!** - Data generation script. Stitches the raw CSV files, calculates SpaCy vectors, applies the 2-day date window, and generates the `trainset_reconstructed.csv`. |
 
 ## Usage
 
