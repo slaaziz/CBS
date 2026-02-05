@@ -46,12 +46,10 @@ python -m spacy download nl_core_news_lg
 | **Model B2** | **Production Semantic** | **Phase 2 Overhaul** | Final production model. Combines Dutch embeddings with Hard Negative mining for maximum precision. |
 
 ## Semantic Error Analysis
+- `rf_semantic_error_analysis.ipynb` - analysis notebook for error categorisation and ranking-based diagnostics.g
 - A dedicated semantic error analysis was conducted on the Random Forest predictions to understand the nature of remaining misclassifications.
 - Errors were categorised into recurring semantic patterns (e.g., ambiguous semantic overlap, same-day semantic reuse, weak headline signals).
 - This analysis supports the interpretation that remaining errors are driven by semantic ambiguity rather than random noise.
-
-**File:**
-- `rf_semantic_error_analysis.ipynb` — analysis notebook for error categorisation and ranking-based diagnostics.g
 
 ## Model C - Confidence-Aware Retrieval and Neural Re-Ranking
 Model C introduces an exploratory two-stage retrieve-and-rank pipeline designed for high-recall scenarios where a standard classifier might miss nuanced semantic links, moving beyond binary classification.
