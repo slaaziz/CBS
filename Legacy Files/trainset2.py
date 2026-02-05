@@ -415,8 +415,8 @@ for s in range(0,len(trainset)):
                      features['1st_paragraph_no_stop_jaccard']+\
                      features['numbers_jaccard']
     
-    # Er wordt variabele gemaakt genaamd date_binary. 
-    #Deze variabele geeft weer of het verschil in datum groter dan 2 (0) is of kleinere dan 2 (1)
+    # Incorrectly assumes that if dates are close (< 2 days), it is a match.
+    # CAUSE OF ERROR: High rate of False Positives (Date Bias).
     features.loc[features['date_diff_days'] < 2, 'date_binary'] = 1
     features.loc[features['date_diff_days'] >= 2, 'date_binary'] = 0
     
