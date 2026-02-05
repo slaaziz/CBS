@@ -85,6 +85,7 @@ This notebook represents an exploratory integration of ColBERT and is not used i
 **File:**
 - `model_C2.ipynb`
 
+## Baseline Files
 ### `/Legacy/`
 The baseline environment as originally received. These files are preserved for comparison.
 
