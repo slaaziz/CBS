@@ -3,5 +3,11 @@ scikit-learn
 pandas
 numpy
 spacy
+nltk
+tqdm
 recordlinkage
 treeinterpreter
+matplotlib
+seaborn
+pyvis
+networkx
