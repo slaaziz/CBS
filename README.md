@@ -45,9 +45,16 @@ python -m spacy download nl_core_news_lg
 | **Model A2** | Reconstructed Lexical | **Phase 2 Overhaul** | Legacy features applied to the full 350k corpus with 1:1 Hard Negative sampling to break date-bias. |
 | **Model B2** | **Production Semantic** | **Phase 2 Overhaul** | Final production model. Combines Dutch embeddings with Hard Negative mining for maximum precision. |
 
-### Model C - Advanced Neural Retrieval & Reranking
+## Semantic Error Analysis
+- A dedicated semantic error analysis was conducted on the Random Forest predictions to understand the nature of remaining misclassifications.
+- Errors were categorised into recurring semantic patterns (e.g., ambiguous semantic overlap, same-day semantic reuse, weak headline signals).
+- This analysis supports the interpretation that remaining errors are driven by semantic ambiguity rather than random noise.
 
-Model C introduces a two-stage retrieval pipeline designed for high-recall scenarios where a standard classifier might miss nuanced semantic links.
+**File:**
+- `rf_semantic_error_analysis.ipynb` — analysis notebook for error categorisation and ranking-based diagnostics.g
+
+## Model C - Confidence-Aware Retrieval and Neural Re-Ranking
+Model C introduces an exploratory two-stage retrieve-and-rank pipeline designed for high-recall scenarios where a standard classifier might miss nuanced semantic links, moving beyond binary classification.
 
 **Implemented components:**
 - **First-Stage Retrieval (BM25)** - Efficiently filters the 350k+ article corpus to generate a shortlist of candidates for each CBS report.
@@ -66,8 +73,17 @@ Model C introduces a two-stage retrieval pipeline designed for high-recall scena
   - `margin_top1_top2`: The numerical distance between the #1 and #2 match.
   - `decision`: Automated label based on the margin threshold (AUTO_POSITIVE, REVIEW, or IGNORE).
 
-**Planned Extensions:**
-- **ColBERT (Late Interaction):** Moving from BM25 to neural retrieval for the first stage to capture semantic matches that share no exact keywords.
+### Model C2: Neural Retrieval Exploration with ColBERT
+
+Model C2 explores the use of a ColBERT-style late-interaction neural retriever as an alternative retrieval mechanism within the Model C pipeline. The goal of this exploration is to investigate whether dense neural retrieval can improve candidate recall for semantically similar articles that lack strong lexical overlap, such as paraphrased headlines or indirect content reuse.
+
+This notebook represents an exploratory integration of ColBERT and is not used in the main pipeline. It serves as a proof-of-concept for reducing reliance on lexical retrieval methods in future iterations.
+
+**Planned Extension:**
+- **ColBERT (Late Interaction):** Moving from BM25 to neural retrieval for the first stage to better capture semantic matches that share no exact keywords.
+
+**File:**
+- `model_C2.ipynb`
 
 ### `/Legacy/`
 The baseline environment as originally received. These files are preserved for comparison.
