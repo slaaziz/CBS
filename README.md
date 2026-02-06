@@ -105,7 +105,7 @@ This folder contains the technical audit that proved the original system was lin
 * **Logic:** Nodes are color-coded by confidence (Green > 0.88, Yellow 0.5-0.88). It uses a Barnes-Hut physics engine to allow analysts to physically manipulate and explore connections between reports.
 
 ## `/dashboard-files/`
-Folder containing files for the dashboard website/prototype. Consult the `README.md` inside that folder for further instructions.
+Folder containing files for the dashboard website/prototype. Consult the `README.md` inside that folder for further instructions. The dashboard itself can be **[accesed here](https://rachna-test-2.vercel.app)**.
 
 ## Reproducibility & Environment
 * **Python Version:** 3.13
