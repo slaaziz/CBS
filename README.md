@@ -104,6 +104,9 @@ This folder contains the technical audit that proved the original system was lin
 * **Family Clusters:** Provides a microscopic view of individual articles and their related reports.
 * **Logic:** Nodes are color-coded by confidence (Green > 0.88, Yellow 0.5-0.88). It uses a Barnes-Hut physics engine to allow analysts to physically manipulate and explore connections between reports.
 
+## `/dashboard-files/`
+Folder containing files for the dashboard website/prototype. Consult the `README.md` inside that folder for further instructions.
+
 ## Reproducibility & Environment
 * **Python Version:** 3.13
 * **Random Seed:** `random_state=42` used across all notebook initializations where relevant (the answer to life, the universe, and everything).
